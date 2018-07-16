@@ -11,7 +11,7 @@ def to_image(matrix,title,artist):
     title = ''.join(c for c in title if c not in "*.”/\[]:;|=,?")
     size = len(matrix)
     if size < 1000 and size >0:
-        scale = 1000/size
+        scale = int(1000/size)
         print(scale)
     else:
         scale = 1
@@ -24,32 +24,29 @@ def to_image(matrix,title,artist):
                     pixels[i, j] = (0, 0, 0) # set the colour accordingly
                 else:
                     pixels[i, j] = (255, 255, 255)
-        outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
-        directory = os.path.dirname(outfile)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        print(outfile)
-        print(os.path.isfile(directory))
-        if not os.path.isfile(directory):
-            img.save(outfile)
     else:
+        oldsize = size
         size = size*scale
         img = Image.new('RGB', (size, size))  # create a new black image
         pixels = img.load()  # create the pixel map
-        for i in range(img.size[0]/scale):  # for every col:
-            for j in range(img.size[1]/scale):  # For every row
+        for i in range(oldsize):  # for every col:
+            for j in range(oldsize):  # For every row
                 if matrix[i][j] == True:
-                    pixels[i, j] = (0, 0, 0)  # set the colour accordingly
+                    for x in range(scale*i,scale*(i+1)):
+                        for y in range(scale*j, scale*(j+1)):
+                            pixels[x,y] = (0, 0, 0)  # set the colour accordingly
                 else:
-                    pixels[i, j] = (255, 255, 255)
-        outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
-        directory = os.path.dirname(outfile)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        print(outfile)
-        print(os.path.isfile(directory))
-        if not os.path.isfile(directory):
-            img.save(outfile)
+                    for x in range(scale*i,scale*(i+1)):
+                        for y in range(scale*j, scale*(j+1)):
+                            pixels[x, y] = (255, 255, 255)
+    outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
+    directory = os.path.dirname(outfile)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    print(outfile)
+    print(os.path.isfile(directory))
+    if not os.path.isfile(directory):
+        img.save(outfile)
 
 def strip_punctuation(s):
     return ''.join(c for c in s if c not in punctuation.replace("'",""))
