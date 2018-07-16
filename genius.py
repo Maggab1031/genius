@@ -32,7 +32,24 @@ def to_image(matrix,title,artist):
         print(os.path.isfile(directory))
         if not os.path.isfile(directory):
             img.save(outfile)
-
+    else:
+        size = size*scale
+        img = Image.new('RGB', (size, size))  # create a new black image
+        pixels = img.load()  # create the pixel map
+        for i in range(img.size[0]/scale):  # for every col:
+            for j in range(img.size[1]/scale):  # For every row
+                if matrix[i][j] == True:
+                    pixels[i, j] = (0, 0, 0)  # set the colour accordingly
+                else:
+                    pixels[i, j] = (255, 255, 255)
+        outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
+        directory = os.path.dirname(outfile)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        print(outfile)
+        print(os.path.isfile(directory))
+        if not os.path.isfile(directory):
+            img.save(outfile)
 
 def strip_punctuation(s):
     return ''.join(c for c in s if c not in punctuation.replace("'",""))
