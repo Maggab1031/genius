@@ -10,9 +10,9 @@ import time
 def to_image(matrix,title,artist):
     title = ''.join(c for c in title if c not in "*.”/\[]:;|=,?")
     size = len(matrix)
-    if size < 1000 and size >0:
-        scale = int(1000/size)
-        print(scale)
+    minsize = 2000
+    if size < minsize and size >0:
+        scale = int(minsize/size)
     else:
         scale = 1
     if size>0 and scale <2:
@@ -43,8 +43,6 @@ def to_image(matrix,title,artist):
     directory = os.path.dirname(outfile)
     if not os.path.exists(directory):
         os.makedirs(directory)
-    print(outfile)
-    print(os.path.isfile(directory))
     if not os.path.isfile(directory):
         img.save(outfile)
 
@@ -97,15 +95,14 @@ def all_songs_by_to_txt(artist, api):
     if not os.path.exists(path):
         os.makedirs(path)
     directory = os.path.dirname(path)
-    print(os.path.isfile(directory))
-    #if not os.path.isfile(directory):
     t0 = time.time()
     songs = api.search_artist(artist).songs
     t1 = time.time()
     print(t1-t0)
     file = open(path+str(artist)+".txt","w+")
     for x in songs:
-        file.write(x.title.strip('u\u200b').strip('u\U0001f409')+"\n")
+        title_proper = ''.join([i if ord(i) < 128 else ' ' for i in x.title.strip('u\u200b')])
+        file.write(title_proper+"\n")
 
 def from_txt(artist,api):
     print("From txt")
