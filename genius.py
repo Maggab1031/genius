@@ -43,8 +43,9 @@ def to_image(matrix,title,artist):
     directory = os.path.dirname(outfile)
     if not os.path.exists(directory):
         os.makedirs(directory)
-    if not os.path.isfile(directory):
-        img.save(outfile)
+    img.save(outfile)
+    if size<0:
+        print("blank")
 
 def strip_punctuation(s):
     return ''.join(c for c in s if c not in punctuation.replace("'",""))
