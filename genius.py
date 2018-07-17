@@ -15,7 +15,9 @@ def to_image(matrix,title,artist):
         scale = int(minsize/size)
     else:
         scale = 1
-    if size>0 and scale <2:
+    if size<1:
+        print("blank")
+    elif scale <2:
         img = Image.new('RGB', (size, size))  # create a new black image
         pixels = img.load()  # create the pixel map
         for i in range(img.size[0]):  # for every col:
@@ -24,6 +26,11 @@ def to_image(matrix,title,artist):
                     pixels[i, j] = (0, 0, 0) # set the colour accordingly
                 else:
                     pixels[i, j] = (255, 255, 255)
+        outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
+        directory = os.path.dirname(outfile)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        img.save(outfile)
     else:
         oldsize = size
         size = size*scale
@@ -39,13 +46,11 @@ def to_image(matrix,title,artist):
                     for x in range(scale*i,scale*(i+1)):
                         for y in range(scale*j, scale*(j+1)):
                             pixels[x, y] = (255, 255, 255)
-    outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
-    directory = os.path.dirname(outfile)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    img.save(outfile)
-    if size<0:
-        print("blank")
+        outfile = 'C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{1}\\{0}_{1}.jpg'.format(str(title), str(artist))
+        directory = os.path.dirname(outfile)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        img.save(outfile)
 
 def strip_punctuation(s):
     return ''.join(c for c in s if c not in punctuation.replace("'",""))
@@ -109,8 +114,11 @@ def from_txt(artist,api):
     print("From txt")
     text_file = open("C:\\Users\\GMagee1\\PycharmProjects\\genius\\dump\\{0}\\{0}.txt".format(str(artist)), "r")
     list = text_file.readlines()
+    t0 = time.time()
     for x in list:
         search_for(artist, x[:-1], api)
+    t1 = time.time()
+    print((t1-t0)/len(list))
 
 def main():
     api = lyricsgenius.Genius('8b9e3NKxtASuUliLIygQ0RKDES7w4JIEu4wdxfHdrNLOdutTquJtnJSDif6MAU1E')
