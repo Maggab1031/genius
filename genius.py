@@ -8,7 +8,7 @@ import time
 
 
 def to_image(matrix,title,artist):
-    title = ''.join(c for c in title if c not in "*.”/\[]:;|=,?")
+    title = ''.join(c for c in title if c not in "*.”/\[]:;|=,?").replace('"','')
     size = len(matrix)
     minsize = 2000
     if size < minsize and size >0:
