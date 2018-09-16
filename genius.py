@@ -104,10 +104,7 @@ def strip_punctuation(s):
 def process(list):
     blank = []
     for x in list:
-        if "[" in x and "]" in x:
-            list.remove(x)
-        else:
-            blank = blank + x.split(" ")
+        blank = blank + x.split(" ")
     blank_two = []
     for x in blank:
         if "-" in x:
@@ -124,7 +121,7 @@ def process(list):
     return blank_two
 
 def search_for(artist, title, api):
-    search = api.search_song(title, artist)
+    search = api.search_song(title, artist,remove_section_headers=True)
     try:
         song = search.lyrics.splitlines()
         lyrics = process(song)
@@ -175,8 +172,8 @@ def main():
     if prompt=="0":
         while (prompt != "n"):
             artist = input("What artist would you like to search? ")
-            if input("Would you like to make a heatmap? (y/n): ")=="y":
-                get_images(artist, size)
+            #if input("Would you like to make a heatmap? (y/n): ")=="y":
+                #get_images(artist, size)
             title = input("What song title would you like to search? ")
             search_for(artist,title,api)
             prompt = input("Would you like to search again? (y/n): ")
@@ -186,7 +183,9 @@ def main():
             path = dir + '\\dump\\{0}\\{0}.txt'.format(str(artist))
             if not os.path.isfile(path):
                 all_songs_by_to_txt(artist,api)
-            from_txt(artist,api)
+            if input("Load from file? (y/n): ")=="y":
+                from_txt(artist,api)
+            all_songs_by_to_txt(artist, api)
             if input("Would you like to make a heatmap? (y/n): ")=="y":
                 get_images(artist, size)
             prompt = input("Would you like to search again? (y/n): ")
