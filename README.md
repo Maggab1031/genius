@@ -9,13 +9,9 @@ Given a title and an artist, will query the genius api for it's lyrics, tokenize
 ![image example](https://github.com/Maggab1031/genius/blob/master/dump/kanye%20west/All%20of%20the%20Lights_kanye%20west.jpg "Kanye West's All of the lights")
 
 
-
-
 ### Talking Heads: Wild Wild Life
 ![image example](https://github.com/Maggab1031/genius/blob/master/dump/talking%20heads/wild%20wild%20life_talking%20heads.jpg "Talking Heads: wild wild life")
 
-
-https://github.com/Maggab1031/genius/blob/master/dump/the%20beatles/Help!_the%20beatles.jpg
 
 ### The Beatles: Help!
 ![image example](https://github.com/Maggab1031/genius/blob/master/dump/the%20beatles/Help!_the%20beatles.jpg "The Beatles: Help!")
